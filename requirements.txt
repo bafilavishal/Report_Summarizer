@@ -1,0 +1,6 @@
+flask
+easyocr
+PyMuPDF
+transformers
+torch
+Pillow

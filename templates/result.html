@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Report Summary</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/result.css') }}">
+</head>
+<body>
+  <header>
+    <h1>🩺 Medical Report Summary</h1>
+  </header>
+
+  <main>
+    {% if summary %}
+      <section class="summary">
+        <h2>Generated Medical Summary</h2>
+        <pre>{{ summary }}</pre>
+
+        {% if summary_file %}
+          <a href="{{ url_for('download_file', filename=summary_file) }}" class="btn">
+            ⬇ Download Summary
+          </a>
+        {% endif %}
+      </section>
+    {% endif %}
+
+    {% if error %}
+      <section class="error">
+        <p style="color:red;">{{ error }}</p>
+      </section>
+    {% endif %}
+  </main>
+
+  <footer>
+    <a href="{{ url_for('index') }}" class="btn">⬅ Back to Home</a>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,189 @@
+/* styles.css */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  color: #333;
+  background-color: #ffffff;
+}
+
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.hero {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 8px;
+}
+
+.hero h1 {
+  font-size: 2.5em;
+}
+
+.hero p {
+  font-size: 1.2em;
+}
+
+.hero button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: white;
+  color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.hero button:hover {
+  background-color: #e0e0e0;
+}
+
+.introduction {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.introduction h2 {
+  font-size: 2em;
+}
+
+.introduction h3 {
+  font-size: 1.5em;
+}
+
+.how-it-works {
+  padding: 40px 20px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.how-it-works h2 {
+  text-align: center;
+}
+
+.steps {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.step {
+  width: 30%;
+  min-width: 250px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+.step h3 {
+  font-size: 2em;
+  color: #007bff;
+}
+
+.key-features {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.features {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.feature {
+  width: 30%;
+  min-width: 250px;
+  margin: 20px 0;
+}
+
+.transformation {
+  padding: 40px 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
+
+.transformation ul {
+  list-style-type: disc;
+  padding-left: 40px;
+}
+
+.security {
+  padding: 40px 20px;
+}
+
+.security-features {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.security-features div {
+  width: 30%;
+  min-width: 250px;
+  margin: 20px 0;
+}
+
+.before-after {
+  padding: 40px 20px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.comparison {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.comparison div {
+  width: 45%;
+  min-width: 300px;
+  margin: 20px 0;
+}
+
+.testimonials {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.testimonial {
+  margin: 20px 0;
+  font-style: italic;
+}
+
+.faq {
+  padding: 40px 20px;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+}
+
+.question {
+  margin: 20px 0;
+}
+
+.cta {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 8px;
+}
+
+.cta button {
+  padding: 10px 20px;
+  font-size: 1em;
+  background-color: white;
+  color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cta button:hover {
+  background-color: #e0e0e0;
+}
