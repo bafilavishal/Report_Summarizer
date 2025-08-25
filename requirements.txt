@@ -1,6 +1,13 @@
 flask
 easyocr
+openai
 PyMuPDF
+pdfplumber
 transformers
+google-generativeai
 torch
+pytesseract
+matplotlib
 Pillow
+
+
