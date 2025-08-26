@@ -5,9 +5,8 @@ PyMuPDF
 pdfplumber
 transformers
 google-generativeai
-torch
+torch==2.2.0+cpu -f https://download.pytorch.org/whl/torch_stable.html
 pytesseract
 matplotlib
 Pillow
-
-
+opencv-python-headless
