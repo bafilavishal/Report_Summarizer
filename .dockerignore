@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.mp4
+*.zip
+*.pdf
+venv/
+node_modules/
+build/
+dist/
+.git/
+.github/
