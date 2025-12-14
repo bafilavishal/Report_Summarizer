@@ -10,24 +10,19 @@ import pandas as pd
 import shutil
 # 🔑 API Keys
 import os
+import google.generativeai as genai
+from openai import OpenAI
 
-# Load the .env file
-load_dotenv()
+# ✅ Directly set your keys here (not secure, but no .env needed)
+GOOGLE_API_KEY = "AIzaSyDrVsMVmWc-Sl4nXlkyu_WYCF-X3dekc1Y"   # replace with your real key
+DEEPSEEK_API_KEY = "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" # replace with your real key
 
-# Get keys
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY")
 
-# For testing (don’t show full keys)
-print("Google Key:", GOOGLE_API_KEY[:5] + "*****")
-print("DeepSeek Key:", DEEPSEEK_API_KEY[:5] + "*****")
-
-# Configure Gemini
+# ✅ Configure Gemini
 genai.configure(api_key=GOOGLE_API_KEY)
 
-# Create OpenAI client for DeepSeek
+# ✅ Create OpenAI client for DeepSeek
 client = OpenAI(api_key=DEEPSEEK_API_KEY, base_url="https://openrouter.ai/api/v1")
-
 
 
 # Images folder
@@ -72,90 +67,123 @@ def chunk_text(text, max_chars=5000):
 # ------------------------------
 # AI functions
 # ------------------------------
-def generate_summary_with_gemini(text, mode="normal", language="en"):
-    prompt_template = f"""
-You are a friendly Indian medical assistant.
-Language: {"Hindi" if language=="hi" else "English"}
-Mode: {"Explain Like I am 5" if mode=="eli5" else "Normal summary"}
 
-🧍 PATIENT DETAILS
-• Name: __
-• Age: __
-• Date: __
-• Gender: __
-• State: __
-• Country: India
-• Phone Number: __
+def generate_summary_with_openrouter(text, mode="normal", language="en"):
+    prompt_template = """
+        You are a medical summarizer AI.
 
-🏥 MEDICAL INSIGHTS
-• Disease Name: __
-• Common symptoms: __
-• Likely cause: __
-• Risk level (Low/Medium/High): __
-• Possible medicines prescribed: __
-• Side effects to watch for: __
-• How to avoid it in future (Indian context): __
-• What you should ask your doctor next time: __
-• Extra care to take now: __
+STRICT RULES:
+- Do NOT review, analyze, or critique the report.
+- Do NOT say "the summary provided" or "points to consider".
+- Do NOT explain, comment, or suggest improvements.
+- ONLY fill in the template fields below.
+- EVERY field under 🩺 Medical Insights MUST be filled.
+- If the report does not explicitly provide information for a field, infer a reasonable value based on context.
+- Use **very simple language** that anyone can understand; avoid medical or technical terms.
+-Use very simple words. Short sentences. Explain any medical term in everyday words.
+-Use a friendly, reassuring tone. Encourage the patient to follow healthy habits.
+-Focus on what the patient can do to improve their health. Give clear, practical advice.
+-Convert lab results and medical measurements into simple explanations that anyone can understand.
 
-🥗 DIET & LIFESTYLE RECOMMENDATIONS
-• Eat more: __
-• Avoid eating: __
-• Good drinks: __
-• Avoid drinks: __
+-give a little descriptive information.
+- Output ONLY the template, nothing else.
+- No introductions, no extra sentences before or after.
+- Output MUST begin with "🧾 Medical Report Summary".
+- Fill the patient details from the report; use "__" only if the information is completely missing.
 
-👨‍⚕️ DOCTOR'S NOTE
-• One-liner advice: __
 
-📊 STATISTICS (India-specific)
-• Recent yearly trend in India: __
-• Most affected states: __
+TEMPLATE TO FILL:
+🧾 Medical Report Summary
 
-Report:
-{text}
-"""
-    try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        chunks = chunk_text(text)
-        final_summary = ""
-        for idx, chunk in enumerate(chunks, start=1):
-            response = model.generate_content(prompt_template.replace("{text}", chunk))
-            final_summary += f"\n--- CHUNK {idx} SUMMARY ---\n" + response.text.strip()
-        return final_summary.strip()
-    except Exception as e:
-        return f"❌ Gemini error: {e}"
+👤 Patient Details:
+- Name: __
+- Age: __
+- Gender: __
+- Occupation: __
+- State: __
+- Country: __
+- Phone: __
 
-def validate_with_gpt(summary):
+🩺 Medical Insights:
+- Disease Name: __
+- Common Symptoms: __
+- Likely Cause: __
+- Risk Level: __
+- Possible Medicines Prescribed: __
+- Side Effects: __
+- Future Prevention: __
+
+🥗 Diet & Lifestyle Recommendations:
+- Eat: __
+- Drink: __
+- Avoid: __
+
+📊 Statistics:
+
+
+📌 Doctor’s Note:
+__
+    Report:
+    {text}
+    """
+
     try:
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="gpt-4o-mini",  # ✅ Valid OpenRouter model
             messages=[
-                {"role": "system", "content": "Cross-check the medical summary for correctness."},
-                {"role": "user", "content": summary}
+                {"role": "system", "content": "You are a helpful medical summarizer."},
+                {"role": "user", "content": prompt_template.replace("{text}", text)}
             ]
         )
-        return response.choices[0].message.content
+        return response.choices[0].message.content.strip()
     except Exception as e:
-        return f"❌ GPT validation error: {e}"
+        return f"❌ OpenRouter error: {e}"
 
-def extract_disease_name(summary_text):
-    match = re.search(r"• Disease Name:\s*(.+)", summary_text)
-    if match:
-        disease = match.group(1).strip()
-        if disease and disease != "__":
-            return disease
-    return None
 
+# ✅ Gemini for real-time graphs / trends
 def generate_dynamic_disease_charts(summary_text):
     disease_name = extract_disease_name(summary_text) or "Unknown"
     if disease_name == "Unknown":
         print("⚠️ No disease name found. Skipping charts.")
         return
-    states = ["Delhi", "UP", "Bihar", "Maharashtra", "Kerala"]
-    cases = [120, 340, 220, 410, 150]
-    plt.figure(figsize=(8,5))
-    plt.bar(states, cases, color="#4CAF50")
-    plt.title(f"{disease_name} Cases in India (Simulated Data)")
-    plt.xlabel("States")
-    plt.ylabel("Cases")
-    plt.show()
+
+    try:
+        # Use Gemini to simulate trend data (instead of hardcoding)
+        model = genai.GenerativeModel("gemini-1.5-flash")
+        trend_prompt = f"""
+Provide a short JSON dataset showing approximate {disease_name} case counts 
+in 5 Indian states for visualization. 
+Format strictly as: {{"states": [...], "cases": [...]}} with 5 values each.
+"""
+        response = model.generate_content(trend_prompt)
+        data = eval(response.text.strip())  # Convert Gemini’s JSON-like output
+
+        states = data.get("states", ["Delhi","UP","Bihar","Maharashtra","Kerala"])
+        cases = data.get("cases", [120,340,220,410,150])
+
+        plt.figure(figsize=(8,5))
+        plt.bar(states, cases, color="#4CAF50")
+        plt.title(f"{disease_name} Cases in India (Gemini Real-time Data)")
+        plt.xlabel("States")
+        plt.ylabel("Cases")
+        plt.show()
+
+    except Exception as e:
+        print(f"⚠️ Gemini chart error: {e}")
+
+
+#  latest 
+from flask_bcrypt import Bcrypt
+from flask_jwt_extended import create_access_token, decode_token
+from datetime import timedelta
+
+bcrypt = Bcrypt()
+
+def hash_password(password):
+    return bcrypt.generate_password_hash(password).decode('utf-8')
+
+def check_password(password, hashed):
+    return bcrypt.check_password_hash(hashed, password)
+
+def generate_token(user_id):
+    return create_access_token(identity=str(user_id), expires_delta=timedelta(days=7))

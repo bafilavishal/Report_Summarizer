@@ -5,7 +5,58 @@ body {
   color: #333;
   background-color: #ffffff;
 }
+/*  nav bar  */
+.navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      padding: 15px 30px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
+    .navbar .logo {
+      font-size: 1.6em;
+      font-weight: 600;
+      color: #2c3e50;
+    }
+
+    #user-status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #user-info {
+      display: none;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #user-info img {
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      border: 2px solid #2c3e50;
+    }
+
+    #logout-btn {
+      background: #ff4d4d;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    #logout-btn:hover {
+      background: #e63b3b;
+    }
+/*  body  */
 .app {
   max-width: 1200px;
   margin: 0 auto;

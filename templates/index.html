@@ -1,34 +1,48 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MediEase</title>
- <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
 
+  <!-- Google Identity -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
+
 <body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">MediEase</div>
+    <div id="user-status">
+      <!-- Google Sign-in Button -->
+      <div id="login-btn"></div>
+
+      <!-- User info (hidden until logged in) -->
+      <div id="user-info" style="display: none;">
+        <img id="user-pic" alt="User" />
+        <span id="user-name"></span>
+        <button id="logout-btn">Logout</button>
+      </div>
+    </div>
+  </nav>
+
   <div class="app">
     <!-- Hero Section -->
-   <section class="hero">
-  <h1>MediEase: Understand Your Medical Reports, Instantly.</h1>
-  <p>Empowering you with clear, simplified health insights.</p>
+    <section class="hero">
+      <h1>MediEase: Understand Your Medical Reports, Instantly.</h1>
+      <p>Empowering you with clear, simplified health insights.</p>
 
-<form action="/" method="POST" enctype="multipart/form-data">
-
-  <input type="file" name="file" required>
-  
-  <select name="language">
-      <option value="en">English</option>
-      <option value="hi">Hindi</option>
-  </select>
-  
-  <button type="submit">Upload & Generate Summary</button>
-</form>
-
-</section>
-
+      <form action="/" method="POST" enctype="multipart/form-data" id="upload-form">
+        <input type="file" name="file" required />
+        <select name="language">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+        </select>
+        <button type="submit">Upload & Generate Summary</button>
+      </form>
+    </section>
+  </div>
 
     <!-- Introduction -->
     <section class="introduction">
@@ -110,63 +124,7 @@
       </div>
     </section>
 
-    <!-- Before/After -->
-    <section class="before-after">
-      <h2>See the Difference with MediEase</h2>
-      <div class="comparison">
-        <div>
-          <h3>Before MediEase</h3>
-          <p>Lost in medical jargon, unsure of what your diagnosis means, feeling anxious about your health.</p>
-        </div>
-        <div>
-          <h3>After MediEase</h3>
-          <p>Empowered with clear understanding, confident in discussing your health with your doctor, taking active steps for your well-being.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="testimonials">
-      <h2>User Testimonials</h2>
-      <div class="testimonial">
-        <p>"MediEase made my complex lab results so easy to understand. It took away all my anxiety!"</p>
-        <p>- Sarah L., Patient</p>
-      </div>
-      <div class="testimonial">
-        <p>"As a caregiver, this tool is invaluable. I can now support my loved one with informed questions."</p>
-        <p>- David R., Caregiver</p>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="faq">
-      <h2>Frequently Asked Questions</h2>
-      <div class="question">
-        <h3>What file types does MediEase support?</h3>
-        <p>We accept PDF documents, common image formats (JPG, PNG, TIFF), and plain text files. Our system is designed for broad compatibility.</p>
-      </div>
-      <div class="question">
-        <h3>How long does it take to get a summary?</h3>
-        <p>Most reports are processed and summarized within seconds to a few minutes, depending on the complexity and length of the document.</p>
-      </div>
-      <div class="question">
-        <h3>Is my data stored?</h3>
-        <p>To ensure your privacy, MediEase processes your reports in real-time and does not permanently store your medical data after generating the summary.</p>
-      </div>
-      <div class="question">
-        <h3>Can MediEase replace my doctor's advice?</h3>
-        <p>No, MediEase is a tool for understanding, not a substitute for professional medical advice. Always consult your healthcare provider for diagnoses and treatment plans.</p>
-      </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section class="cta">
-      <h2>Ready to Understand Your Health Better?</h2>
-      <p>Join thousands of patients who are taking control of their medical understanding with MediEase.</p>
-      <button>Get Started - It's Free</button>
-      <p>© 2024 MediEase. All rights reserved.</p>
-    </section>
-  </div>
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+  <!-- Load JS last -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

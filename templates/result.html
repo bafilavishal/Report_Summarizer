@@ -15,7 +15,14 @@
     {% if summary %}
       <section class="summary">
         <h2>Generated Medical Summary</h2>
-        <pre>{{ summary }}</pre>
+
+        <div class="summary-fields">
+          {% for line in summary.split('\n') %}
+            {% if line.strip() %}
+              <p><strong>{{ line.split(':')[0] }}:</strong> {{ line.split(':', 1)[1] if ':' in line else '' }}</p>
+            {% endif %}
+          {% endfor %}
+        </div>
 
         {% if summary_file %}
           <a href="{{ url_for('download_file', filename=summary_file) }}" class="btn">
@@ -30,10 +37,14 @@
         <p style="color:red;">{{ error }}</p>
       </section>
     {% endif %}
-  </main>
+     </main>
 
-  <footer>
+   <footer>
     <a href="{{ url_for('index') }}" class="btn">⬅ Back to Home</a>
   </footer>
+
+</body>
+</html>
+ <script src="{{ url_for('static', filename='js/result.js') }}"></script>
 </body>
 </html>

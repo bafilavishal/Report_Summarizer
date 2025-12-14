@@ -1,1 +1,32 @@
-❌ GPT validation error: Error code: 401 - {'error': {'message': 'Incorrect API key provided: sk-abcdq*******************************qrst. You can find your API key at https://platform.openai.com/account/api-keys.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_api_key'}}
+🧾 Medical Report Summary
+
+👤 Patient Details:
+- Name: John Doe
+- Age: 54
+- Gender: Male
+- Occupation: __
+- State: __
+- Country: __
+- Phone: __
+
+🩺 Medical Insights:
+- Disease Name: Heart issues
+- Common Symptoms: Chest pain, shortness of breath
+- Likely Cause: High blood pressure, diabetes, high cholesterol
+- Risk Level: Moderate to high
+- Possible Medicines Prescribed: Low-dose aspirin, atorvastatin
+- Side Effects: Possible stomach upset, headache, or dizziness
+- Future Prevention: Regular check-ups, healthy lifestyle, manage stress
+
+🥗 Diet & Lifestyle Recommendations:
+- Eat: Fruits, vegetables, whole grains, lean proteins
+- Drink: Water, herbal tea
+- Avoid: Sugary foods, fried foods, excessive salt
+
+📊 Statistics:
+- Blood Pressure: 150/95 mmHg (high)
+- Heart Rate: 92 bpm (slightly high)
+- Respiratory Rate: 20 bpm (normal)
+
+📌 Doctor’s Note:
+It's important to follow the treatment plan and keep track of your symptoms. Make sure to visit for your stress test and follow-up. Take care of your health through good eating and regular exercise!

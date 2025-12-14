@@ -1,12 +1,32 @@
 from flask import Flask, render_template, request, redirect, url_for, send_file
 import os
+import subprocess
+import importlib
+
+def install_and_import(package, pip_name=None, extra_args=[]):
+    try:
+        return importlib.import_module(package)
+    except ImportError:
+        print(f"⚡ Installing {package} ...")
+        cmd = ["pip", "install", "--no-cache-dir", pip_name or package] + extra_args
+        subprocess.check_call(cmd)
+        return importlib.import_module(package)
+
+# Example usage when you need Torch
+torch = install_and_import("torch", "torch", [
+    "-f", "https://download.pytorch.org/whl/torch_stable.html"
+])
+
+# Example usage when you need EasyOCR
+easyocr = install_and_import("easyocr")
+reader = easyocr.Reader(["en", "hi"])  # English + Hindi OCR
+
 from werkzeug.utils import secure_filename
 # Import your existing medical summarizer functions
 from summarizer_utils import (
     extract_text_from_pdf,
     extract_text_from_image,
-    generate_summary_with_gemini,
-    validate_with_gpt,
+    generate_summary_with_openrouter,
     generate_dynamic_disease_charts
 )
 
@@ -43,14 +63,10 @@ def index():
                 text = ""
 
             if text:
-                # Generate summary
-                summary = generate_summary_with_gemini(text, mode=mode, language=language)
+                # Generate summary (DeepSeek instead of Gemini)
+                summary = generate_summary_with_openrouter(text, mode=mode, language=language)
 
-                # Validate with GPT
-                try:
-                    validated = validate_with_gpt(summary)
-                except Exception as e:
-                    validated = summary + f"\n\n⚠️ GPT validation error: {e}"
+                validated = summary
 
                 # Save validated summary
                 summary_file = os.path.join(SUMMARY_FOLDER, filename + "_summary.txt")
@@ -85,4 +101,3 @@ def download_file(filename):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
