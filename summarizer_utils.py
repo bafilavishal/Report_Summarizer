@@ -15,7 +15,7 @@ from openai import OpenAI
 
 # ✅ Directly set your keys here (not secure, but no .env needed)
 GOOGLE_API_KEY = "AIzaSyDrVsMVmWc-Sl4nXlkyu_WYCF-X3dekc1Y"   # replace with your real key
-DEEPSEEK_API_KEY = "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" # replace with your real key
+DEEPSEEK_API_KEY = "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" # replace with your real key
 
 
 # ✅ Configure Gemini
